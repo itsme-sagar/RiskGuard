@@ -1,0 +1,78 @@
+# ================================
+# Environment & Secrets
+# ================================
+.env
+.env.*
+!.env.example
+
+# ================================
+# Python
+# ================================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+ENV/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# ================================
+# Node / Frontend
+# ================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Vite / Frontend build
+frontend/dist/
+frontend/.vite/
+
+# ================================
+# Databases
+# ================================
+*.db
+*.sqlite
+*.sqlite3
+
+# ================================
+# ML / Generated Files
+# ================================
+*.pkl
+*.joblib
+
+# ================================
+# Logs
+# ================================
+*.log
+logs/
+
+# ================================
+# OS Files
+# ================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ================================
+# IDE / Editor
+# ================================
+.vscode/
+.idea/
+
+# ================================
+# Temporary Files
+# ================================
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Debug/archive files
+frontend-debug.zip
+*.zip
