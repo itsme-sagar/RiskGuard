@@ -1,9 +1,22 @@
 import axios from "axios";
 
-// Default backend port is 8000 (matching start_servers.bat and backend/main.py)
-const defaultBaseUrl = "http://127.0.0.1:8000";
+// Backend URLs
+const localBackendUrl = "http://127.0.0.1:8000";
+const productionBackendUrl = "https://riskguard-v2rf.onrender.com";
+
+// Use VITE_API_URL when configured.
+// Otherwise:
+// - Vercel production → Render backend
+// - Local development → local FastAPI backend
 const envUrl = import.meta.env.VITE_API_URL;
-const resolvedBaseUrl = envUrl ? envUrl.replace(":8002", ":8000") : defaultBaseUrl;
+
+const isProduction =
+  typeof window !== "undefined" &&
+  window.location.hostname.endsWith("vercel.app");
+
+const resolvedBaseUrl =
+  envUrl ||
+  (isProduction ? productionBackendUrl : localBackendUrl);
 
 const API = axios.create({
   baseURL: resolvedBaseUrl,
@@ -13,14 +26,20 @@ const API = axios.create({
 API.interceptors.request.use((config) => {
   if (config.url && !config.url.startsWith("http")) {
     let url = config.url;
-    const baseHasApi = (config.baseURL || "").replace(/\/+$/, "").endsWith("/api");
+
+    const baseHasApi = (config.baseURL || "")
+      .replace(/\/+$/, "")
+      .endsWith("/api");
+
     if (!baseHasApi && !url.startsWith("/api/") && url !== "/api") {
       url = `/api${url.startsWith("/") ? "" : "/"}${url}`;
     } else if (baseHasApi && url.startsWith("/api/")) {
       url = url.replace(/^\/api/, "");
     }
+
     config.url = url;
   }
+
   return config;
 });
 
